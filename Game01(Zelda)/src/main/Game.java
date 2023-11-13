@@ -23,16 +23,16 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static JFrame frame;
     private Thread thread;
     private boolean isRunning;
-    private final int WIDTH = 240;
-    private final int HEIGHT = 160;
+    public static final int WIDTH = 240;
+    public static final int HEIGHT = 160;
     private final int SCALE = 3;
 
     private BufferedImage image;
 
-    public List<Entity> entities;
+    public static List<Entity> entities;
     public static Spritesheet spritesheet;
 
-    private Player player;
+    public static Player player;
 
     public static World world;
 
@@ -44,10 +44,9 @@ public class Game extends Canvas implements Runnable, KeyListener {
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         entities = new ArrayList<Entity>();
         spritesheet = new Spritesheet("spritesheet.png");
-        world = new World("map.png");
         player = new Player(0, 0, 16, 16, spritesheet.getSprite(0, 0, 16, 16));
-        
         entities.add(player);
+        world = new World("map.png");
     }
 
     public void initFrame() {

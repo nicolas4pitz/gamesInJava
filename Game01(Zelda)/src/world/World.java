@@ -6,6 +6,13 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import entities.Bullet;
+import entities.Enemy;
+import entities.Entity;
+import entities.Lifepack;
+import entities.Weapon;
+import main.Game;
+
 public class World {
     
     private BufferedImage map;
@@ -24,17 +31,29 @@ public class World {
             for(int xx = 0; xx < map.getWidth(); xx++){
                 for (int yy = 0; yy < map.getHeight(); yy++){
                     int pixelAtual = pixels[xx + (yy * map.getWidth())];
+                    tiles[xx + (yy * WIDTH)] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOOR);
                     if(pixelAtual == 0xFF000000){
                         //Floor
-                        tiles[xx + (yy * WIDTH)] = new FloorTile(xx * 0, yy * 48, Tile.TILE_FLOOR);
+                        tiles[xx + (yy * WIDTH)] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOOR);
                     } else if(pixelAtual == 0xFFFFFFFF){
-                        tiles[xx + (yy * WIDTH)] = new FloorTile(xx * 0, yy * 48, Tile.TILE_WALL);
+                        //WALL
+                        tiles[xx + (yy * WIDTH)] = new FloorTile(xx * 16, yy * 16, Tile.TILE_WALL);
                     } else if (pixelAtual == 0xFF002bfc){
                         //Player
-                        tiles[xx + (yy * WIDTH)] = new FloorTile(xx * 0, yy * 48, Tile.TILE_FLOOR);
-                    } else{
-                        //FLOOR
-                        tiles[xx + (yy * WIDTH)] = new FloorTile(xx * 0, yy * 48, Tile.TILE_FLOOR);
+                        Game.player.setX(xx*16);
+                        Game.player.setY(xx*16);
+                    } else if (pixelAtual == 0xFFd82323){
+                        //ENEMY
+                        Game.entities.add(new Enemy(xx*16, yy*16, 16, 16, Entity.ENEMY_EN));
+                    } else if (pixelAtual == 0xFFd3800b){
+                        //WEAPON
+                        Game.entities.add(new Weapon(xx*16, yy*16, 16, 16, Entity.WEAPON_EN));
+                    } else if (pixelAtual == 0xFFff8c81){
+                        //LIFEPACK
+                        Game.entities.add(new Lifepack(xx*16, yy*16, 16, 16, Entity.LIFEPACK_EN));
+                    } else if(pixelAtual == 0xFFffd004){
+                        //BULLET
+                        Game.entities.add(new Bullet(xx*16, yy*16, 16, 16, Entity.BULLET_EN));
                     }
                 }
             }
@@ -46,8 +65,16 @@ public class World {
         }
 
     public void render(Graphics g){
-        for (int xx = 0; xx < WIDTH; xx++){
-            for (int yy = 0; yy < HEIGHT; yy++){
+        int xstart = Camera.x >> 4;
+        int ystart = Camera.y >> 4;
+
+        int xfinal = xstart + (Game.WIDTH >> 4);
+        int yfinal = ystart + (Game.HEIGHT >> 4);
+        for (int xx = xstart; xx <= xfinal; xx++){
+            for (int yy = ystart; yy <= yfinal; yy++){
+                if (xx < 0 || yy < 0 || xx >= WIDTH || yy >= HEIGHT){
+                    continue;
+                }
                 Tile tile = tiles[xx + (yy*WIDTH)];
                 tile.render(g);
             }
