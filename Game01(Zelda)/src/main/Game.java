@@ -3,6 +3,7 @@ package main;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import entities.BulletShoot;
 import entities.Enemy;
 import entities.Entity;
 import entities.Player;
@@ -34,6 +36,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public static List<Entity> entities;
     public static List<Enemy> enemies;
+    public static List<BulletShoot> bullets;
     public static Spritesheet spritesheet;
 
     public static Player player;
@@ -54,6 +57,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
         entities = new ArrayList<Entity>();
         enemies = new ArrayList<Enemy>();
+        bullets = new ArrayList<BulletShoot>();
         spritesheet = new Spritesheet("spritesheet.png");
         player = new Player(0, 0, 16, 16, spritesheet.getSprite(0, 0, 16, 16));
         entities.add(player);
@@ -95,6 +99,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
             Entity e = entities.get(i);
             e.tick();
         }
+        for(int i = 0; i < bullets.size(); i++){
+            bullets.get(i).tick();
+        }
+
         requestFocus();
     }
 
@@ -113,12 +121,17 @@ public class Game extends Canvas implements Runnable, KeyListener {
             Entity e = entities.get(i);
             e.render(g);
         }
-
+        for(int i = 0; i < bullets.size(); i++){
+            bullets.get(i).render(g);;
+        }
         ui.render(g);
 
         g.dispose();
         g = bs.getDrawGraphics();
         g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
+        g.setFont(new Font("arial", Font.BOLD, 17));
+        g.setColor(new Color(255,255,255));
+        g.drawString("Munição: "+ player.ammo, 600, 24);
         bs.show();
     
     }
@@ -170,6 +183,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
         } else if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S){
             player.down = true;
         }
+
+        if(e.getKeyCode() == KeyEvent.VK_SPACE){
+            player.shoot = true;
+        }
     }
 
     @Override
@@ -185,6 +202,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
         } else if(e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S){
             player.down = false;
         } 
+
+        if(e.getKeyCode() == KeyEvent.VK_SPACE){
+            player.shoot = false;
+        }
     }
     
 }
