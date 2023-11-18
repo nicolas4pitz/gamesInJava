@@ -5,8 +5,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -23,7 +26,7 @@ import world.World;
 
 import javax.swing.JFrame;
 
-public class Game extends Canvas implements Runnable, KeyListener {
+public class Game extends Canvas implements Runnable, KeyListener, MouseListener {
 
     public static JFrame frame;
     private Thread thread;
@@ -32,6 +35,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
     public static final int HEIGHT = 160;
     private final int SCALE = 3;
 
+    private int CUR_LEVEL = 1, MAX_LEVEL = 2;
     private BufferedImage image;
 
     public static List<Entity> entities;
@@ -47,9 +51,15 @@ public class Game extends Canvas implements Runnable, KeyListener {
 
     public UI ui;
 
+    public static String gameState = "Normal";
+    private boolean showMessageGameOver = true;
+    private int framesGameOver = 0;
+    private boolean restartGame = false;
+
     public Game() {
         rand = new Random();
         this.addKeyListener(this);
+        this.addMouseListener(this);
         setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
         initFrame();
         
@@ -61,7 +71,7 @@ public class Game extends Canvas implements Runnable, KeyListener {
         spritesheet = new Spritesheet("spritesheet.png");
         player = new Player(0, 0, 16, 16, spritesheet.getSprite(0, 0, 16, 16));
         entities.add(player);
-        world = new World("map.png");
+        world = new World("level1.png");
     }
 
     public void initFrame() {
@@ -95,12 +105,43 @@ public class Game extends Canvas implements Runnable, KeyListener {
     }
 
     public void tick(){
-        for (int i = 0; i < entities.size(); i++){
-            Entity e = entities.get(i);
-            e.tick();
-        }
-        for(int i = 0; i < bullets.size(); i++){
-            bullets.get(i).tick();
+        if(gameState == "Normal"){
+            this.restartGame = false;
+            for (int i = 0; i < entities.size(); i++){
+                Entity e = entities.get(i);
+                e.tick();
+            }
+            for(int i = 0; i < bullets.size(); i++){
+                bullets.get(i).tick();
+            }
+
+            if(enemies.size() == 0){
+                //Avançar para o proximo level
+                CUR_LEVEL++;
+                if(CUR_LEVEL > MAX_LEVEL){
+                    CUR_LEVEL = 1;
+                }
+                String newWorld = "level"+CUR_LEVEL+".png";
+                World.restartGame(newWorld);
+            }
+        } else if(gameState == "GAME_OVER"){
+            
+            this.framesGameOver++;
+            if(this.framesGameOver == 30){
+                this.framesGameOver = 0;
+                if(this.showMessageGameOver){
+                    this.showMessageGameOver = false;
+                } else {
+                    this.showMessageGameOver = true;
+                }
+            }
+            if(this.restartGame){
+                this.restartGame = false;
+                this.gameState = "Normal";
+                CUR_LEVEL = 1;
+                String newWorld = "level"+CUR_LEVEL+".png";
+                World.restartGame(newWorld);
+            }
         }
 
         requestFocus();
@@ -132,6 +173,18 @@ public class Game extends Canvas implements Runnable, KeyListener {
         g.setFont(new Font("arial", Font.BOLD, 17));
         g.setColor(new Color(255,255,255));
         g.drawString("Munição: "+ player.ammo, 600, 24);
+        if(gameState == "GAME_OVER"){
+            Graphics2D g2 = (Graphics2D) g;
+            g2.setColor(new Color(0, 0, 0, 100));
+            g2.fillRect(0, 0, WIDTH*SCALE, HEIGHT*SCALE);
+            g.setFont(new Font("arial", Font.BOLD, 28));
+            g.setColor(new Color(255,255,255));
+            g.drawString("GAME OVER", (WIDTH*SCALE) / 2 - 90, (HEIGHT*SCALE) / 2 - 20);
+            g.setFont(new Font("arial", Font.BOLD, 32));
+            if(showMessageGameOver){
+                 g.drawString(">Pressione Enter para Reiniciar<", (WIDTH*SCALE) / 2 - 260, (HEIGHT*SCALE) / 2 + 40);
+            }
+        }
         bs.show();
     
     }
@@ -187,6 +240,10 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_SPACE){
             player.shoot = true;
         }
+
+        if(e.getKeyCode() == KeyEvent.VK_ENTER){
+            this.restartGame = true;
+        }
     }
 
     @Override
@@ -206,6 +263,34 @@ public class Game extends Canvas implements Runnable, KeyListener {
         if(e.getKeyCode() == KeyEvent.VK_SPACE){
             player.shoot = false;
         }
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+        player.mouseShoot = true;
+        player.mx = (e.getX() / 3);
+        player.my = (e.getY() / 3);
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        player.mouseShoot = false;
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+        // TODO Auto-generated method stub
     }
     
 }
