@@ -11,6 +11,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -29,7 +30,7 @@ import world.World;
 
 import javax.swing.JFrame;
 
-public class Game extends Canvas implements Runnable, KeyListener, MouseListener {
+public class Game extends Canvas implements Runnable, KeyListener, MouseListener, MouseMotionListener{
 
     public static JFrame frame;
     private Thread thread;
@@ -66,12 +67,14 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     private int framesGameOver = 0;
     private boolean restartGame = false;
 
+    public int mx, my;
 
     public Game() {
-        Sound.musicBackground.loop();
+        //Sound.musicBackground.loop();
         rand = new Random();
         this.addKeyListener(this);
         this.addMouseListener(this);
+        this.addMouseMotionListener(this);
         setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
         initFrame();
         
@@ -221,6 +224,12 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         } else if(gameState == "MENU"){
             menu.render(g);
         }
+        Graphics2D g2 = (Graphics2D) g;
+        double angleMouse = Math.atan2(my - 200+25, mx - 200+25);
+        
+        g2.rotate(angleMouse, 200+25, 200+25);
+        g.setColor(Color.red);
+        g.fillRect(200, 200, 50, 50);
         /* 
         g.setFont(newFont);
         g.setColor(Color.red);
@@ -359,6 +368,17 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     @Override
     public void mouseExited(MouseEvent e) {
         // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        this.mx = e.getX();
+        this.my = e.getY();
     }
     
 }
