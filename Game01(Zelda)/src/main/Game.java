@@ -14,6 +14,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -57,6 +58,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     public Menu menu;
 
+    public int xx, yy;
+
     //public InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("pixelart.ttf");
     //public Font newFont;
 
@@ -69,6 +72,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     public int mx, my;
 
+    public int[] pixels;
+
     public Game() {
         //Sound.musicBackground.loop();
         rand = new Random();
@@ -80,6 +85,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         
         ui = new UI();
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
         entities = new ArrayList<Entity>();
         enemies = new ArrayList<Enemy>();
         bullets = new ArrayList<BulletShoot>();
@@ -184,6 +190,19 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         requestFocus();
     }
 
+    /*public void drawRectangleExample(int xOff, int yOff){
+        for(int xx = 0; xx < 32; xx++){
+            for(int yy = 0; yy < 32; yy++){
+                int xoff = xx + xOff;
+                int yoff = yy + yOff;
+                if(xoff < 0 || yoff < 0 || xoff >= WIDTH || yoff >= HEIGHT){
+                    continue;
+                }
+                pixels[xoff + (yoff * WIDTH)] = 0xFF0000;
+            }
+        }
+    }*/
+
     public void render(){
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null){
@@ -224,12 +243,14 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         } else if(gameState == "MENU"){
             menu.render(g);
         }
+        /*
+        Renderizar Quadrado que gira a medida que o mouse se movimenta        
         Graphics2D g2 = (Graphics2D) g;
         double angleMouse = Math.atan2(my - 200+25, mx - 200+25);
         
         g2.rotate(angleMouse, 200+25, 200+25);
         g.setColor(Color.red);
-        g.fillRect(200, 200, 50, 50);
+        g.fillRect(200, 200, 50, 50);*/
         /* 
         g.setFont(newFont);
         g.setColor(Color.red);
@@ -367,7 +388,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     @Override
     public void mouseExited(MouseEvent e) {
-        // TODO Auto-generated method stub
     }
 
     @Override
