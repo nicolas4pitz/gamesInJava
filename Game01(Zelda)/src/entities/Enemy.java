@@ -32,29 +32,30 @@ public class Enemy extends Entity{
     }
     
     public void tick(){
+        if(this.calculateDistance(this.getX(), this.getY(), Game.player.getX(), Game.player.getY()) < 220){
+            if (this.isCollidingWithPlayer() == false){
+                if ((int)x < Game.player.getX() && World.isFree((int)(x+speed), this.getY()) && !isColliding((int)(x+speed), this.getY())){
+                    x += speed;
+                } else if((int)x > Game.player.getX() && World.isFree((int)(x-speed), this.getY()) && !isColliding((int)(x-speed), this.getY())){
+                    x -= speed;
+                }
 
-        if (this.isCollidingWithPlayer() == false){
-            if ((int)x < Game.player.getX() && World.isFree((int)(x+speed), this.getY()) && !isColliding((int)(x+speed), this.getY())){
-                x += speed;
-            } else if((int)x > Game.player.getX() && World.isFree((int)(x-speed), this.getY()) && !isColliding((int)(x-speed), this.getY())){
-                x -= speed;
-            }
-
-            if((int) y < Game.player.getY() && World.isFree(this.getX(), (int)(y+speed)) && !isColliding(this.getX(), (int)(y+speed))){
-                y += speed;
-            } else if ((int) y > Game.player.getY() && World.isFree(this.getX(), (int)(y-speed)) && !isColliding(this.getX(), (int)(y-speed))){
-                y -= speed;
-            }
-        } else {
-            //Estamos colidindo
-            if(Game.rand.nextInt(100) < 10){
-                Game.player.life-=Game.rand.nextInt(3);
-                Game.player.isDamaged = true;
-                
-                System.out.println("Vida: "+Game.player.life);
+                if((int) y < Game.player.getY() && World.isFree(this.getX(), (int)(y+speed)) && !isColliding(this.getX(), (int)(y+speed))){
+                    y += speed;
+                } else if ((int) y > Game.player.getY() && World.isFree(this.getX(), (int)(y-speed)) && !isColliding(this.getX(), (int)(y-speed))){
+                    y -= speed;
+                }
+            } else {
+                //Estamos colidindo
+                if(Game.rand.nextInt(100) < 10){
+                    Game.player.life-=Game.rand.nextInt(3);
+                    Game.player.isDamaged = true;
+                    
+                    System.out.println("Vida: "+Game.player.life);
+                }
             }
         }
-        
+
         frames++;
         if (frames == maxFrames){
             frames = 0;
