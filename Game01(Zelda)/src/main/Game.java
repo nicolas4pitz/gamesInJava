@@ -29,6 +29,7 @@ import graficos.Spritesheet;
 import graficos.UI;
 import world.World;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 public class Game extends Canvas implements Runnable, KeyListener, MouseListener, MouseMotionListener{
@@ -73,6 +74,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public int mx, my;
 
     public int[] pixels;
+    public BufferedImage lightMap;
+    public int[] lightmappixels;
 
     public Game() {
         //Sound.musicBackground.loop();
@@ -85,6 +88,13 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         
         ui = new UI();
         image = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_RGB);
+        try {
+            lightMap = ImageIO.read(getClass().getResource("lightmap.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        lightmappixels = new int[lightMap.getWidth() * lightMap.getHeight()];
+        lightMap.getRGB(0, 0, lightMap.getWidth(), lightMap.getHeight(), lightmappixels, 0, lightMap.getWidth());
         pixels = ((DataBufferInt)image.getRaster().getDataBuffer()).getData();
         entities = new ArrayList<Entity>();
         enemies = new ArrayList<Enemy>();
@@ -184,6 +194,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
                 World.restartGame(newWorld);
             }
         } else if(gameState == "MENU"){
+            player.uptadeCamera();
             menu.tick();
         }
 
@@ -199,6 +210,17 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
                     continue;
                 }
                 pixels[xoff + (yoff * WIDTH)] = 0xFF0000;
+            }
+        }
+    }*/
+
+    /*public void applyLight(){
+        for(int xx = 0; xx < Game.WIDTH; xx++){
+            for(int yy = 0; yy < Game.HEIGHT; yy++){
+                if(lightmappixels[xx + (yy*Game.WIDTH)] == 0x000000){
+                    
+                    pixels[xx +(yy*Game.WIDTH)] = 0;
+                }
             }
         }
     }*/
@@ -221,6 +243,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         for(int i = 0; i < bullets.size(); i++){
             bullets.get(i).render(g);;
         }
+        //applyLight();
         ui.render(g);
 
         g.dispose();
