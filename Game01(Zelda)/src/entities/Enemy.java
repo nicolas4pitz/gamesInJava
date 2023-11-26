@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Random;
 
 import main.Game;
 import world.Astar;
@@ -32,30 +33,32 @@ public class Enemy extends Entity{
     }
     
     public void tick(){
-
-       /*if(this.calculateDistance(this.getX(), this.getY(), Game.player.getX(), Game.player.getY()) < 220){
-            if (this.isCollidingWithPlayer() == false){
-                if ((int)x < Game.player.getX() && World.isFree((int)(x+speed), this.getY()) && !isColliding((int)(x+speed), this.getY())){
-                    x += speed;
-                } else if((int)x > Game.player.getX() && World.isFree((int)(x-speed), this.getY()) && !isColliding((int)(x-speed), this.getY())){
-                    x -= speed;
-                }
-
-                if((int) y < Game.player.getY() && World.isFree(this.getX(), (int)(y+speed)) && !isColliding(this.getX(), (int)(y+speed))){
-                    y += speed;
-                } else if ((int) y > Game.player.getY() && World.isFree(this.getX(), (int)(y-speed)) && !isColliding(this.getX(), (int)(y-speed))){
-                    y -= speed;
-                }
-            } else {
-                //Estamos colidindo
-                if(Game.rand.nextInt(100) < 10){
-                    Game.player.life-=Game.rand.nextInt(3);
-                    Game.player.isDamaged = true;
-                    
-                    System.out.println("Vida: "+Game.player.life);
-                }
-            }
-        }*/
+        maskx = 5;
+        masky = 5;
+        depth = 0;
+		if(!isCollidingWithPlayer()) {
+			if(path == null || path.size() == 0) {
+				Vector2i start = new Vector2i(((int)(x/16)),((int)(y/16)));
+				Vector2i end = new Vector2i(((int)(Game.player.x/16)),((int)(Game.player.y/16)));
+				path = Astar.findPath(Game.world, start, end);
+			}
+		}else {
+			if(new Random().nextInt(100) < 5) {
+				//Sound.hurtEffect.play();
+				Game.player.life-=Game.rand.nextInt(3);
+				Game.player.isDamaged = true;
+			}
+		}
+			if(new Random().nextInt(100) < 50)
+				followPath(path);
+			
+			if(x % 16 == 0 && y % 16 == 0) {
+				if(new Random().nextInt(100) < 10) {
+					Vector2i start = new Vector2i(((int)(x/16)),((int)(y/16)));
+					Vector2i end = new Vector2i(((int)(Game.player.x/16)),((int)(Game.player.y/16)));
+					path = Astar.findPath(Game.world, start, end);
+				}
+			}
 
         if(path == null || path.size() == 0){
             Vector2i start = new Vector2i((int)(x/16), (int)(y/16));
