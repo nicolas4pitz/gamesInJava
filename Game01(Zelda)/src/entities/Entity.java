@@ -3,6 +3,7 @@ package entities;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.Comparator;
 import java.util.List;
 
 import main.Game;
@@ -28,6 +29,8 @@ public class Entity {
     protected int width;
     protected int height;
 
+    public int depth;
+
     private BufferedImage sprite;
 
     public int maskx, masky, mwidth, mheight;
@@ -45,6 +48,19 @@ public class Entity {
         this.mheight = height;
 
     }
+
+    public static Comparator<Entity> nodeSorter = new Comparator<Entity>() {
+		
+		@Override
+		public int compare(Entity n0,Entity n1) {
+			if(n1.depth < n0.depth)
+				return +1;
+			if(n1.depth > n0.depth)
+				return -1;
+			return 0;
+		}
+		
+	};
 
     public void setMask(int maskx, int masky, int mwidth, int mheight){
         this.maskx = maskx;
@@ -81,9 +97,9 @@ public class Entity {
         
     }
 
-    public double calculateDistance(int x1, int x2, int y1, int y2){
-        return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
-    }
+    public double calculateDistance(int x1,int y1,int x2,int y2) {
+		return Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
+	}
 
     public boolean isColliding(int xnext, int ynext){
         Rectangle enemyCurrent = new Rectangle(xnext + maskx, ynext + masky, mwidth, mheight);
@@ -101,40 +117,37 @@ public class Entity {
         return false;
     }
 
-    public void followPath(List<Node> path){
-        if(path != null){
-            if(path.size() > 0){
-                Vector2i target = path.get(path.size() - 1).tile;
-                //xprev = x;
-                //yprev = y;
-                if(x < target.x * 16){
-                    x++;
-                } else if(x < target.x * 16){
-                    x--;
-                }
-
-                if(y < target.y * 16){
-                    y++;
-                } else if(y > target.y * 16){
-                    y--;
-                }
-
-                if(x == target.x *16 && y == target.y * 16){
-                    path.remove(path.size() - 1);
-                }
-
-            }
-        }
-    }
+    public void followPath(List<Node> path) {
+		if(path != null) {
+			if(path.size() > 0) {
+				Vector2i target = path.get(path.size() - 1).tile;
+				//xprev = x;
+				//yprev = y;
+				if(x < target.x * 16) {
+					x++;
+				}else if(x > target.x * 16) {
+					x--;
+				}
+				
+				if(y < target.y * 16) {
+					y++;
+				}else if(y > target.y * 16) {
+					y--;
+				}
+				
+				if(x == target.x * 16 && y == target.y * 16) {
+					path.remove(path.size() - 1);
+				}
+				
+			}
+		}
+	}
 
     public static boolean isColliding(Entity e1, Entity e2){
         Rectangle e1Mask = new Rectangle(e1.getX() + e1.maskx, e1.getY()+e1.masky, e1.mwidth, e1.mheight);
         Rectangle e2Mask = new Rectangle(e2.getX() + e2.maskx, e2.getY()+e2.masky, e2.mwidth, e2.mheight);
 
-        if(e1Mask.intersects(e2Mask) && e1.z == e2.z){
-            return true;
-        }
-        return false;
+        return e1Mask.intersects(e2Mask);
     }
 
 

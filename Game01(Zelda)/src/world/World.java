@@ -10,6 +10,7 @@ import javax.imageio.ImageIO;
 import entities.Bullet;
 import entities.Enemy;
 import entities.Entity;
+import entities.Flower;
 import entities.Lifepack;
 import entities.Player;
 import entities.Weapon;
@@ -63,6 +64,9 @@ public class World {
                     } else if(pixelAtual == 0xFFffd004){
                         //BULLET
                         Game.entities.add(new Bullet(xx*16, yy*16, 16, 16, Entity.BULLET_EN));
+                    }  else if(pixelAtual == 0xFF4CFF00){
+                        //FLower
+                        tiles[xx + (yy * WIDTH)] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOWER);
                     }
                 }
             }
@@ -95,6 +99,7 @@ public class World {
     public static void restartGame(String level){
         Game.entities.clear();
         Game.enemies.clear();
+        Game.bullets.clear();
         Game.entities = new ArrayList<Entity>();
         Game.enemies = new ArrayList<Enemy>();
         Game.spritesheet = new Spritesheet("spritesheet.png");
