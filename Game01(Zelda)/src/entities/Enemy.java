@@ -13,6 +13,7 @@ import world.Vector2i;
 import world.World;
 
 public class Enemy extends Entity{
+    
 
     private double speed = 0.5;
 
