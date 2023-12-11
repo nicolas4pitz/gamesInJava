@@ -16,13 +16,11 @@ public class Player extends Entity{
     public int right_dir = 0, left_dir = 1;
     public int dir = right_dir;
     public double speed = 1.6;
-
     
     private int frames = 0, maxFrames = 5, index = 0, maxIndex = 3;
     private boolean moved = false;
     private BufferedImage[] rightPlayer;
     private BufferedImage[] leftPlayer;
-
     private BufferedImage playerDamage;
     private BufferedImage playerDamageRight;
     private BufferedImage playerDamageLeft;
