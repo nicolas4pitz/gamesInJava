@@ -27,54 +27,49 @@ public class World {
     public static final int TILE_SIZE = 16;
 
     public World(String path){
-        try {
-            map = ImageIO.read(World.class.getResourceAsStream(path));
-            int[] pixels = new int[map.getWidth() * map.getHeight()];
-            WIDTH = map.getWidth();
-            HEIGHT = map.getHeight();
-            tiles = new Tile[map.getWidth() * map.getHeight()];
-            map.getRGB(0, 0, map.getWidth(), map.getHeight(), pixels, 0, map.getWidth());
-            for(int xx = 0; xx < map.getWidth(); xx++){
-                for (int yy = 0; yy < map.getHeight(); yy++){
-                    int pixelAtual = pixels[xx + (yy * map.getWidth())];
-                    tiles[xx + (yy * WIDTH)] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOOR);
-                    if(pixelAtual == 0xFF000000){
-                        //Floor
-                        tiles[xx + (yy * WIDTH)] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOOR);
-                    } else if(pixelAtual == 0xFFFFFFFF){
-                        //WALL
-                        tiles[xx + (yy * WIDTH)] = new WallTile(xx * 16, yy * 16, Tile.TILE_WALL);
-                    } else if (pixelAtual == 0xFF002bfc){
-                        //Player
-                        Game.player.setX(xx*16);
-                        Game.player.setY(xx*16);
-                    } else if (pixelAtual == 0xFFd82323){
-                        //ENEMY
-                        Enemy en = new Enemy(xx*16, yy*16, 16, 16, Entity.ENEMY_EN);
-                        Game.entities.add(en);
-                        Game.enemies.add(en);
+        Game.player.setX(0);
+        Game.player.setY(0);
+        WIDTH = 100;
+        HEIGHT = 100;
+        tiles = new Tile[WIDTH*HEIGHT];
+        
+        for(int xx = 0; xx < WIDTH; xx++){
+            for(int yy = 0; yy < HEIGHT; yy++){
+                tiles[xx+yy*WIDTH] = new WallTile(xx*16, yy*16, Tile.TILE_WALL);
+            }
+        }
+        
+        int dir = 0;
+        int xx = 0, yy = 0;
 
-                    } else if (pixelAtual == 0xFFd3800b){
-                        //WEAPON
-                        Game.entities.add(new Weapon(xx*16, yy*16, 16, 16, Entity.WEAPON_EN));
-                    } else if (pixelAtual == 0xFFff8c81){
-                        //LIFEPACK
-                        Lifepack pack = new Lifepack(xx*16, yy*16, 16, 16, Entity.LIFEPACK_EN);
-                        Game.entities.add(pack);
-                    } else if(pixelAtual == 0xFFffd004){
-                        //BULLET
-                        Game.entities.add(new Bullet(xx*16, yy*16, 16, 16, Entity.BULLET_EN));
-                    }  else if(pixelAtual == 0xFF4CFF00){
-                        //FLower
-                        tiles[xx + (yy * WIDTH)] = new FloorTile(xx * 16, yy * 16, Tile.TILE_FLOWER);
-                    }
+        for(int i = 0; i < 200; i++){
+            tiles[xx+yy*WIDTH] = new FloorTile(xx*16, yy*16, Tile.TILE_FLOOR);
+            if(dir == 0){
+                //direita
+                if(xx < WIDTH){
+                    xx++;
+                }
+            } else if(dir == 1){
+                //esquerda
+                if(xx > 0){
+                    xx--;
+                }
+            } else if(dir == 2){
+                //baixo
+                if(yy < HEIGHT){
+                    yy++;
+                }
+            } else if(dir == 3){
+                //cima
+                if(yy > 0){
+                    yy--;
                 }
             }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+
+            if(Game.rand.nextInt(100) < 30){
+                dir = Game.rand.nextInt(4);
+            }
         }
-            
     }
 
     public static boolean isFree(int xnext, int ynext){
@@ -126,7 +121,7 @@ public class World {
         }
     }    
 
-    public static void renderMinimap(){
+    /*public static void renderMinimap(){
         for(int i = 0; i < Game.minimapaPixels.length; i++){
             Game.minimapaPixels[i] = 0;
         }
@@ -141,7 +136,7 @@ public class World {
         int yPlayer = Game.player.getY()/16;
 
         Game.minimapaPixels[xPlayer + (yPlayer*WIDTH)] = 0x0000ff;
-    }
+    }*/
 
 }
 
