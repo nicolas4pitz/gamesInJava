@@ -78,8 +78,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public BufferedImage lightMap;
     public int[] lightmappixels;
 
-    public static BufferedImage minimapa;
-    public static int[] minimapaPixels;
+    /*public static BufferedImage minimapa;
+    public static int[] minimapaPixels;*/
 
     public Game() {
         //Sound.musicBackground.loop();
@@ -109,8 +109,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         entities.add(player);
         world = new World("level1.png");
 
-        minimapa = new BufferedImage(World.WIDTH, World.HEIGHT, BufferedImage.TYPE_INT_RGB);
-        minimapaPixels = ((DataBufferInt)minimapa.getRaster().getDataBuffer()).getData();
+        /*minimapa = new BufferedImage(World.WIDTH, World.HEIGHT, BufferedImage.TYPE_INT_RGB);
+        minimapaPixels = ((DataBufferInt)minimapa.getRaster().getDataBuffer()).getData();*/
         /* 
         try {
             newFont = Font.createFont(Font.TRUETYPE_FONT, stream).deriveFont(56f);
@@ -287,8 +287,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         g.setColor(Color.red);
         g.drawString("Teste COm nova font", 20, 20);
         */
-        World.renderMinimap();
-        g.drawImage(minimapa,585, 60, World.WIDTH*5, World.HEIGHT*5, null);
+        /*World.renderMinimap();
+        g.drawImage(minimapa,585, 60, World.WIDTH*5, World.HEIGHT*5, null);*/
 
         bs.show();
     
