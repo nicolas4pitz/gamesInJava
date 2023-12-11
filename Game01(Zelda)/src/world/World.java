@@ -126,7 +126,7 @@ public class World {
         }
     }    
 
-    public static void renderMinimap(){
+    /*public static void renderMinimap(){
         for(int i = 0; i < Game.minimapaPixels.length; i++){
             Game.minimapaPixels[i] = 0;
         }
@@ -141,7 +141,7 @@ public class World {
         int yPlayer = Game.player.getY()/16;
 
         Game.minimapaPixels[xPlayer + (yPlayer*WIDTH)] = 0x0000ff;
-    }
+    }*/
 
 }
 
