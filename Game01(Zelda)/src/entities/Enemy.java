@@ -45,7 +45,6 @@ public class Enemy extends Entity{
 			}
 		}else {
 			if(new Random().nextInt(100) < 5) {
-				//Sound.hurtEffect.play();
 				Game.player.life-=Game.rand.nextInt(3);
 				Game.player.isDamaged = true;
 			}
