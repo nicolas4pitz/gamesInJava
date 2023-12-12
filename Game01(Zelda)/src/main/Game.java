@@ -135,7 +135,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         frame.setResizable(false);
         frame.pack();
         //Imagem da Janela
-        Image imagem = null;
+        /*Image imagem = null;
         try{
             imagem = ImageIO.read(getClass().getResource("icon.png"));
         } catch(IOException e){
@@ -146,7 +146,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         Cursor c = toolkit.createCustomCursor(image, new Point(0, 0), "img");
         frame.setCursor(c);
         frame.setIconImage(imagem);
-        frame.setAlwaysOnTop(true);
+        frame.setAlwaysOnTop(true);*/
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
