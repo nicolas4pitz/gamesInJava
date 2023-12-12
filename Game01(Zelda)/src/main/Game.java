@@ -91,7 +91,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         this.addKeyListener(this);
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
-        setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
+        setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
+        //setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
         initFrame();
         
         ui = new UI();
