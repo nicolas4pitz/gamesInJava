@@ -29,6 +29,7 @@ import java.util.Random;
 import entities.BulletShoot;
 import entities.Enemy;
 import entities.Entity;
+import entities.Npc;
 import entities.Player;
 import graficos.Spritesheet;
 import graficos.UI;
@@ -63,6 +64,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public UI ui;
 
     public Menu menu;
+    
+    public Npc npc;
 
     public int xx, yy;
     
@@ -133,6 +136,10 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             e.printStackTrace();
         }*/
 
+        Npc npc = new Npc(32,32,16,16, spritesheet.getSprite(96, 0, 16, 16));
+
+        entities.add(npc);
+
         menu = new Menu();
     }
 
@@ -189,7 +196,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
                 System.out.println("Jogo Salvo");
             }
             this.restartGame = false;
-            if(Game.estado_cena == Game.jogando){
+            //if(Game.estado_cena == Game.jogando){
                 for (int i = 0; i < entities.size(); i++){
                     Entity e = entities.get(i);
                     e.tick();
@@ -197,7 +204,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
                 for(int i = 0; i < bullets.size(); i++){
                     bullets.get(i).tick();
                 }
-            } else{
+            /*/} else{
                 if(Game.estado_cena == Game.entrada){
                     if(player.getX() < 160){
                         player.x++;
@@ -211,7 +218,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
                         Game.estado_cena = Game.jogando;
                     }
                 }
-            }
+            }*/
 
             if(enemies.size() == 0){
                 //Avançar para o proximo level
@@ -330,9 +337,9 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         /*World.renderMinimap();
         g.drawImage(minimapa,585, 60, World.WIDTH*5, World.HEIGHT*5, null);*/
 
-        if(Game.estado_cena == Game.comecar){
+        /*if(Game.estado_cena == Game.comecar){
             g.drawString("Se prepare, o jogo vai começar", 260, 230);
-        }
+        }*/
 
         bs.show();
     
