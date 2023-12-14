@@ -23,8 +23,8 @@ public class Entity {
 
     protected List<Node> path;
 
-    protected double x;
-    protected double y;
+    public double x;
+    public double y;
     protected int z;
     protected int width;
     protected int height;

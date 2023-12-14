@@ -65,6 +65,12 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public Menu menu;
 
     public int xx, yy;
+    
+    public static int entrada = 1;
+    public static int comecar = 2;
+    public static int jogando = 3;
+    public static int estado_cena = entrada;
+    public int timeCena = 0, maxTimeCena = 60*3;
 
     //public InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("pixelart.ttf");
     //public Font newFont;
@@ -183,12 +189,28 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
                 System.out.println("Jogo Salvo");
             }
             this.restartGame = false;
-            for (int i = 0; i < entities.size(); i++){
-                Entity e = entities.get(i);
-                e.tick();
-            }
-            for(int i = 0; i < bullets.size(); i++){
-                bullets.get(i).tick();
+            if(Game.estado_cena == Game.jogando){
+                for (int i = 0; i < entities.size(); i++){
+                    Entity e = entities.get(i);
+                    e.tick();
+                }
+                for(int i = 0; i < bullets.size(); i++){
+                    bullets.get(i).tick();
+                }
+            } else{
+                if(Game.estado_cena == Game.entrada){
+                    if(player.getX() < 160){
+                        player.x++;
+                    } else{
+                        System.out.println("Game Entrada Concluido");
+                        Game.estado_cena = Game.comecar;
+                    }
+                } else if(Game.estado_cena == Game.comecar){
+                    timeCena++;
+                    if(timeCena == maxTimeCena){
+                        Game.estado_cena = Game.jogando;
+                    }
+                }
             }
 
             if(enemies.size() == 0){
@@ -239,7 +261,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         }
     }*/
 
-    public void applyLight(){
+    /*public void applyLight(){
         for(int xx = 0; xx < Game.WIDTH; xx++){
             for(int yy = 0; yy < Game.HEIGHT; yy++){
                 if(lightmappixels[xx + (yy*Game.WIDTH)] == 0x000000){
@@ -248,7 +270,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
                 }
             }
         }
-    }
+    }*/
 
     public void render(){
         BufferStrategy bs = this.getBufferStrategy();
@@ -269,7 +291,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         for(int i = 0; i < bullets.size(); i++){
             bullets.get(i).render(g);;
         }
-        applyLight();
+        //applyLight();
         ui.render(g);
 
         g.dispose();
@@ -307,6 +329,10 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         */
         /*World.renderMinimap();
         g.drawImage(minimapa,585, 60, World.WIDTH*5, World.HEIGHT*5, null);*/
+
+        if(Game.estado_cena == Game.comecar){
+            g.drawString("Se prepare, o jogo vai começar", 260, 230);
+        }
 
         bs.show();
     
