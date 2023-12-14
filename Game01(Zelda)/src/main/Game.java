@@ -91,8 +91,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         this.addKeyListener(this);
         this.addMouseListener(this);
         this.addMouseMotionListener(this);
-        setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
-        //setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
+        //setPreferredSize(new Dimension(Toolkit.getDefaultToolkit().getScreenSize()));
+        setPreferredSize(new Dimension(WIDTH*SCALE, HEIGHT*SCALE));
         initFrame();
         
         ui = new UI();
@@ -239,16 +239,16 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         }
     }*/
 
-    /*public void applyLight(){
+    public void applyLight(){
         for(int xx = 0; xx < Game.WIDTH; xx++){
             for(int yy = 0; yy < Game.HEIGHT; yy++){
                 if(lightmappixels[xx + (yy*Game.WIDTH)] == 0x000000){
-                    
-                    pixels[xx +(yy*Game.WIDTH)] = 0;
+                    int pixel = Pixel.getLightBlend(pixels[xx+yy*WIDTH], 0x282828, 0);
+                    pixels[xx +(yy*Game.WIDTH)] = pixel;
                 }
             }
         }
-    }*/
+    }
 
     public void render(){
         BufferStrategy bs = this.getBufferStrategy();
@@ -269,7 +269,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         for(int i = 0; i < bullets.size(); i++){
             bullets.get(i).render(g);;
         }
-        //applyLight();
+        applyLight();
         ui.render(g);
 
         g.dispose();
@@ -287,7 +287,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             g.drawString("GAME OVER", (WIDTH*SCALE) / 2 - 90, (HEIGHT*SCALE) / 2 - 20);
             g.setFont(new Font("arial", Font.BOLD, 32));
             if(showMessageGameOver){
-                 g.drawString(">Pressione Enter para Reiniciar<", (WIDTH*SCALE) / 2 - 260, (HEIGHT*SCALE) / 2 + 40);
+                g.drawString(">Pressione Enter para Reiniciar<", (WIDTH*SCALE) / 2 - 260, (HEIGHT*SCALE) / 2 + 40);
             }
         } else if(gameState == "MENU"){
             menu.render(g);
