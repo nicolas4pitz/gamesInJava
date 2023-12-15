@@ -29,47 +29,53 @@ public class Menu {
 
 
     public void tick(){
-        File file = new File("save.txt");
-        if(file.exists()){
-            saveExist = true;
-        } else{
-            saveExist = false;
-        }
-        if(up){
-            up = false;
-            currentOption--;
-            if(currentOption < 0){
-                currentOption = maxOption;
-            }
-        }
+    // Verifica se o arquivo de salvamento existe
+    File file = new File("save.txt");
+    if(file.exists()){
+        saveExist = true;
+    } else{
+        saveExist = false;
+    }
 
-        if(down){
-            down = false;
-            currentOption++;
-            if(currentOption > maxOption){
-                currentOption = 0;
-            }
-        }
-
-        if(enter){
-            //Sound.music.play();
-            enter = false;
-            if(options[currentOption] == "novo jogo" || options[currentOption] == "continuar"){
-                Game.gameState = "Normal";
-                pause = false;
-                file = new File("save.txt");
-                file.delete();
-            } else if(options[currentOption] == "carregar jogo"){
-                file = new File("save.txt");
-                if(file.exists()){
-                    String saver = loadGame(10);
-                    applySave(saver);
-                }
-            }  else if(options[currentOption] == "sair"){
-                System.exit(1);
-            }
+    // Trata a entrada do usuário
+    if(up){
+        up = false;
+        currentOption--;
+        if(currentOption < 0){
+            currentOption = maxOption;
         }
     }
+
+    if(down){
+        down = false;
+        currentOption++;
+        if(currentOption > maxOption){
+            currentOption = 0;
+        }
+    }
+
+    if(enter){
+        //Sound.music.play();
+        enter = false;
+        if(options[currentOption] == "novo jogo" || options[currentOption] == "continuar"){
+            // Se o usuário escolher "Novo Jogo" ou "Continuar", defina o estado do jogo como "Normal" e pausar o jogo. Se um arquivo de salvamento existir, exclua-o.
+            Game.gameState = "Normal";
+            pause = false;
+            file = new File("save.txt");
+            file.delete();
+        } else if(options[currentOption] == "carregar jogo"){
+            // Se o usuário escolher "Carregar Jogo", verifique se um arquivo de salvamento existe. Se existir, carregue os dados do jogo do arquivo e aplique-os.
+            file = new File("save.txt");
+            if(file.exists()){
+                String saver = loadGame(10);
+                applySave(saver);
+            }
+        }  else if(options[currentOption] == "sair"){
+            // Se o usuário escolher "Sair", saia do jogo.
+            System.exit(1);
+        }
+    }
+}
 
     public static void applySave(String str){
         String[] spl = str.split("/");
