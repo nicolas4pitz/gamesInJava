@@ -280,19 +280,27 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     }*/
 
     public void render(){
+        // Obtenha a estratégia de buffer para o canvas
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null){
+            // Crie uma nova estratégia de buffer com 3 buffers se não houver uma estratégia existente
             this.createBufferStrategy(3);
             return;
         }
+        // Obtenha o objeto gráfico para a estratégia de buffer
         Graphics g = image.getGraphics();
+        // Defina a cor de fundo como preto
         g.setColor(new Color(0, 0, 0));
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
         world.render(g);
+        // Sort the entities list by Z-index
         Collections.sort(entities, Entity.nodeSorter);
+        // Loop through each entity in the entities list
         for (int i = 0; i < entities.size(); i++){
+            // Get the entity
             Entity e = entities.get(i);
+            // Render the entity
             e.render(g);
         }
         for(int i = 0; i < bullets.size(); i++){
@@ -302,6 +310,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         ui.render(g);
 
         g.dispose();
+
+        // Get the world graphics object
         g = bs.getDrawGraphics();
         g.drawImage(image, 0, 0, WIDTH*SCALE, HEIGHT*SCALE, null);
         g.setFont(new Font("arial", Font.BOLD, 17));
