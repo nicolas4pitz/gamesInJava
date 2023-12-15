@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 
 import main.Game;
 import world.Camera;
+import world.World;
 
 public class BulletShoot extends Entity {
 
@@ -23,8 +24,13 @@ public class BulletShoot extends Entity {
     }
     
     public void tick(){
-        x+=dx*spd;
-        y+=dy*spd;
+        if(World.isFreeDynamic((int)(x+(dx*spd)), (int)(y+(dy*spd)), 3, 3)){
+            x+=dx*spd;
+            y+=dy*spd;
+        }else{
+            Game.bullets.remove(this);
+                return;
+        }
         curLife++;
         if(curLife == life){
             Game.bullets.remove(this);
