@@ -122,10 +122,10 @@ public class Astar {
 	}
 	
 	private static double getDistance(Vector2i tile, Vector2i goal) {
-		 double dx = tile.x - goal.x;
-		 double dy = tile.y - goal.y;
-		 
-		 return Math.sqrt(dx*dx + dy*dy);
+		double dx = tile.x - goal.x;
+		double dy = tile.y - goal.y;
+		
+		return Math.sqrt(dx*dx + dy*dy);
 	}
 	
 }

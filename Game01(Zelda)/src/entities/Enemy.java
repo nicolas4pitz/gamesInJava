@@ -15,7 +15,7 @@ import world.World;
 public class Enemy extends Entity{
     
 
-    private double speed = 0.5;
+    private double speed = 0.1;
 
     private int frames = 0, maxFrames = 20, index = 0, maxIndex = 1;
 
