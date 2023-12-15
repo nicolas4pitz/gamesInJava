@@ -28,7 +28,9 @@ public class BulletShoot extends Entity {
             x+=dx*spd;
             y+=dy*spd;
         }else{
+            
             Game.bullets.remove(this);
+            World.generateParticle(100, (int)x, (int)y);
                 return;
         }
         curLife++;
