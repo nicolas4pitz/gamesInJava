@@ -33,7 +33,7 @@ public class Npc extends Entity{
                 show = true;
             }
         } else{
-            //showMessage = false;
+            showMessage = false;
         }
     }
 

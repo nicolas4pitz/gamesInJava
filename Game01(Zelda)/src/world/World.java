@@ -12,6 +12,7 @@ import entities.Enemy;
 import entities.Entity;
 import entities.Flower;
 import entities.Lifepack;
+import entities.Particle;
 import entities.Player;
 import entities.Weapon;
 import graficos.Spritesheet;
@@ -75,6 +76,12 @@ public class World {
             e.printStackTrace();
         }
             
+    }
+
+    public static void generateParticle(int amount, int x, int y){
+        for(int i=0; i < amount; i++){
+            Game.entities.add(new Particle(x, y, 1, 1, null));
+        }
     }
 
     public static boolean isFreeDynamic(int xnext, int ynext, int width, int height){
