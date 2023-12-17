@@ -39,7 +39,8 @@ public class Player extends Entity{
         verificarPegaFruta();
 
         if(Game.frutas_contagem == Game.frutas_atual){
-            //System.out.println("Ganhamos o Jogo");
+            System.out.println("Ganhamos o Jogo");
+            World.restartGame();
         }
     }
 

@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 import entities.Enemy;
 import entities.Entity;
 import entities.Fruta;
+import entities.Player;
 import main.Game;
 
 public class World {
@@ -90,8 +91,13 @@ public class World {
 				(tiles[x4 + (y4*World.WIDTH)] instanceof WallTile));
 	}
 	
-	public static void restartGame(String level){
-		new Game();
+	public static void restartGame(){
+		Game.player = new Player(0, 0, 16,  16, 2, Game.spritesheet.getSprite(0, 0, 16, 16));
+		Game.entities.clear();
+		Game.entities.add(Game.player);
+		Game.frutas_atual = 0;
+		Game.frutas_contagem = 0;
+		Game.world = new World("level1.png");
 		return;
 	}
 	

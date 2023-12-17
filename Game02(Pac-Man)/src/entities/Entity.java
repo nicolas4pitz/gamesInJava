@@ -22,6 +22,7 @@ public class Entity {
     public static BufferedImage Enemy_AZUL = Game.spritesheet.getSprite(32, 16, 16, 16);
     public static BufferedImage Enemy_LARANJA = Game.spritesheet.getSprite(48, 32, 16, 16);
     public static BufferedImage Enemy_VERMELHO = Game.spritesheet.getSprite(48, 16, 16, 16);
+    public static BufferedImage Enemy_GHOST = Game.spritesheet.getSprite(16, 32, 16, 16);
 
     public double x;
     public double y;

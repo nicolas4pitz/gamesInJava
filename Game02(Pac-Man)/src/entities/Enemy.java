@@ -8,6 +8,7 @@ import java.util.Random;
 
 import main.Game;
 import world.Astar;
+import world.Camera;
 import world.Vector2i;
 
 
@@ -15,7 +16,7 @@ public class Enemy extends Entity{
     
     public boolean ghostMode = false;
     public int ghostFrames = 0;
-    public int nextTime = Entity.rand.nextInt(60*5 - 60*3) + 60*3;
+    public int nextTime = Entity.rand.nextInt((60*5 - 60*3) + 60*3);
 
     public Enemy(int x, int y, int width, int height, int speed, BufferedImage sprite) {
         super(x, y, width, height, speed, sprite);
@@ -43,8 +44,11 @@ public class Enemy extends Entity{
         }
             ghostFrames++;
             if(ghostFrames == nextTime){
-                nextTime = Entity.rand.nextInt(60*5 - 60*3) + 60*3;
-                if(ghostFrames == 60*4){
+                System.out.println("Entrei");
+                nextTime = Entity.rand.nextInt(5);
+                System.out.println(nextTime);
+                if(nextTime == 3){
+                    System.out.println("The Ghost");
                     ghostFrames = 0;
                     if(ghostMode == false){
                         System.out.println("Está no modo Fantasma");
@@ -58,7 +62,11 @@ public class Enemy extends Entity{
     
 
     public void render(Graphics g){
-        super.render(g);
+        if(ghostMode == false){
+            super.render(g);
+        } else {
+            g.drawImage(Entity.Enemy_GHOST, this.getX() - Camera.x, this.getY() - Camera.y , null);
+        }
     }
 
 }
