@@ -68,7 +68,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
         spritesheet = new Spritesheet("spritesheet.png");
         entities = new ArrayList<Entity>();
-        player = new Player(WIDTH/2 - 20, HEIGHT/2 - 5, 16,  16, 2, spritesheet.getSprite(0, 0, 16, 16));
+        player = new Player(WIDTH/2 - 20, HEIGHT/2 - 5, 16,  16, 1.4, Entity.Player_Sprite);
         world =  new World("level1.png");
         ui = new UI();
         
@@ -185,12 +185,24 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     @Override
     public void keyPressed(KeyEvent e) {
-        
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+            player.right = true;
+        } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+            player.left = true;
+        }
+
+        if(e.getKeyCode() == KeyEvent.VK_SPACE){
+            player.jump = true;
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        
+        if(e.getKeyCode() == KeyEvent.VK_RIGHT){
+            player.right = false;
+        } else if(e.getKeyCode() == KeyEvent.VK_LEFT){
+            player.left = false;
+        }
     }
 
     @Override
