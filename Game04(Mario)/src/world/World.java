@@ -34,6 +34,10 @@ public class World {
 					}else if(pixelAtual == 0xFFffffff){
 						//Wall
 						tiles[xx + (yy * WIDTH)] = new WallTile(xx*16,yy*16,Tile.TILE_WALL);
+					} else if(pixelAtual == 0xFF0026FF){
+						//Player
+						Game.player.setX(xx * 16);
+						Game.player.setY(yy * 16);
 					}
 				}
 			}
