@@ -68,7 +68,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
         spritesheet = new Spritesheet("spritesheet.png");
         entities = new ArrayList<Entity>();
-        player = new Player(WIDTH/2 - 20, HEIGHT/2 - 5, 16,  16, 1.4, Entity.Player_Sprite);
+        player = new Player(WIDTH/2 - 20, HEIGHT/2 - 5, 16,  16, 3.4, Entity.Player_Sprite);
         world =  new World("level1.png");
         ui = new UI();
         

@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import main.Game;
+import world.Camera;
 import world.World;
 
 
@@ -16,7 +17,7 @@ public class Player extends Entity{
     private int gravity = 2;
 
     public boolean jump = false;
-    public int jumpHeight = 48;
+    public int jumpHeight = 58;
     public int jumpframe = 0;
     public boolean isJumping = false;
 
@@ -68,6 +69,9 @@ public class Player extends Entity{
                 jumpframe = 0;
             }
         }
+
+        Camera.x = Camera.clamp((int)x-Game.WIDTH/2, 0, World.WIDTH*16 - Game.WIDTH);
+        Camera.y = Camera.clamp((int)y-Game.HEIGHT/2, 0, World.HEIGHT*16 - Game.HEIGHT);
     }
 
     public void render(Graphics g){
