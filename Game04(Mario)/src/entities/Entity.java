@@ -23,6 +23,9 @@ public class Entity {
     public static BufferedImage[] Player_Sprite_LEFT = {Game.spritesheet.getSprite(16, 16, 16, 16), Game.spritesheet.getSprite(32, 16, 16, 16), 
     Game.spritesheet.getSprite(48, 16, 16, 16), Game.spritesheet.getSprite(64, 16, 16, 16)};
 
+    public static BufferedImage Enemy_1 = Game.spritesheet.getSprite(32, 32, 16, 16);
+    public static BufferedImage Enemy_2 = Game.spritesheet.getSprite(48, 32, 16, 16);
+
     public double x;
     public double y;
     protected int z;
