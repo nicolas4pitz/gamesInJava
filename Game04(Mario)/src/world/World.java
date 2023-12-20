@@ -7,6 +7,7 @@ import javax.imageio.ImageIO;
 
 import entities.Enemy;
 import entities.Entity;
+import entities.Moeda;
 import entities.Player;
 import main.Game;
 
@@ -50,6 +51,11 @@ public class World {
 						//Enemy
 						Enemy enemy = new Enemy(xx*16, yy*16, 16, 16, 1.5, Entity.Enemy_2);
 						Game.entities.add(enemy);
+					} else if(pixelAtual == 0xFFFFFF00){
+						//Moeda
+						Moeda moeda = new Moeda(xx*16, yy*16, 16, 16, 1, Game.spritesheet.getSprite(32, 48, 16, 16));
+						Game.entities.add(moeda);
+						Player.maxcoins++;
 					}
 				}
 			}

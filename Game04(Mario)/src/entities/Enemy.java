@@ -10,6 +10,8 @@ public class Enemy extends Entity{
 
     private boolean right = true, left = false;
 
+    public int vida = 4;
+
     public Enemy(double x, double y, int width, int height, double speed, BufferedImage sprite) {
         super(x, y, width, height, speed, sprite);
 
@@ -20,15 +22,27 @@ public class Enemy extends Entity{
             y += gravity;
         }
 
-        if(right && World.isFree((int)(x+speed), (int)y)){
+        if(right){
+            if(World.isFree((int)(x+speed), (int)y)){
             x+=speed;
             if(World.isFree((int)(x+16), (int)y+1)){
                 right = false;
                 left = true;
             }
-        } else if(left && World.isFree((int)(x-speed), (int)y)){
-            x-=speed;
-            if(World.isFree((int)x-16, (int)y+1)){
+        } else{
+            right = false;
+            left = true;
+        }
+    } 
+        
+        if(left){
+            if(World.isFree((int)(x-speed), (int)y)){
+                x-=speed;
+                if(World.isFree((int)x-16, (int)y+1)){
+                    right = true;
+                    left = false;
+                }
+            } else{
                 right = true;
                 left = false;
             }
