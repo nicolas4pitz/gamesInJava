@@ -1,7 +1,6 @@
 package entities;
 
 import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import main.Game;
@@ -38,7 +37,7 @@ public class Player extends Entity{
     }
 
     public void tick(){
-        depth = 2;
+		depth = 2;
         if(World.isFree((int)x, (int)(y+gravity)) && isJumping == false) {
             y += gravity;
             for(int i = 0; i < Game.entities.size(); i++){
@@ -118,7 +117,7 @@ public class Player extends Entity{
         
 
         Camera.x = Camera.clamp((int)x-Game.WIDTH/2, 0, World.WIDTH*16 - Game.WIDTH);
-        Camera.y = Camera.clamp((int)y-Game.HEIGHT/2, 0, World.HEIGHT*16 - Game.HEIGHT);
+        Camera.y = Camera.clamp((int)y-Game.HEIGHT/2, 0, World.HEIGHT*16 - Game.HEIGHT);	
     }
 
     public void render(Graphics g){
