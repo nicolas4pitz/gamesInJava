@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
+import entities.Spawner;
 import main.Game;
 
 public class World {
@@ -33,6 +34,11 @@ public class World {
 						//Wall
 						tiles[xx + (yy * WIDTH)] = new WallTile(xx*16,yy*16,Tile.TILE_WALL);
 						
+					} else if(pixelAtual == 0xFFFF0000){
+						//SPAWNER
+						tiles[xx + (yy * WIDTH)] = new WallTile(xx*16,yy*16,Tile.TILE_WALL);
+						Spawner spawner = new Spawner(xx*16,yy*16, 16, 16, 0, null);
+						Game.entities.add(spawner);
 					}
 				}
 			}
