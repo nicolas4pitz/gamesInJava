@@ -8,6 +8,8 @@ public class Enemy extends Entity{
 
     private int gravity = 0;
 
+    
+
     private boolean right = true, left = false;
 
     public int vida = 4;
@@ -18,35 +20,7 @@ public class Enemy extends Entity{
     }
 
     public void tick(){
-        if(World.isFree((int)x, (int)(y+gravity))) {
-            y += gravity;
-        }
-
-        if(right){
-            if(World.isFree((int)(x+speed), (int)y)){
-            x+=speed;
-            if(World.isFree((int)(x+16), (int)y+1)){
-                right = false;
-                left = true;
-            }
-        } else{
-            right = false;
-            left = true;
-        }
-    } 
-        
-        if(left){
-            if(World.isFree((int)(x-speed), (int)y)){
-                x-=speed;
-                if(World.isFree((int)x-16, (int)y+1)){
-                    right = true;
-                    left = false;
-                }
-            } else{
-                right = true;
-                left = false;
-            }
-        }
+        x++;
     }
     
 }

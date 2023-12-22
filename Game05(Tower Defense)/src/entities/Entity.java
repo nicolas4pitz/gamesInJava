@@ -17,11 +17,8 @@ public class Entity {
 
     protected List<Node> path;
 
-    public static BufferedImage Player_Sprite = Game.spritesheet.getSprite(0, 0, 16, 16);
-    public static BufferedImage[] Player_Sprite_RIGHT = {Game.spritesheet.getSprite(16, 0, 16, 16), Game.spritesheet.getSprite(32, 0, 16, 16), 
-    Game.spritesheet.getSprite(48, 0, 16, 16), Game.spritesheet.getSprite(64, 0, 16, 16)};
-    public static BufferedImage[] Player_Sprite_LEFT = {Game.spritesheet.getSprite(16, 16, 16, 16), Game.spritesheet.getSprite(32, 16, 16, 16), 
-    Game.spritesheet.getSprite(48, 16, 16, 16), Game.spritesheet.getSprite(64, 16, 16, 16)};
+    public static BufferedImage Enemy = Game.spritesheet.getSprite(32, 32, 16, 16);
+    
 
     public static BufferedImage Enemy_1 = Game.spritesheet.getSprite(32, 32, 16, 16);
     public static BufferedImage Enemy_2 = Game.spritesheet.getSprite(48, 32, 16, 16);
