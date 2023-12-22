@@ -21,7 +21,7 @@ public class Spawner extends Entity {
         // Criar Inimigos
         cur_timer++;
         if(cur_timer == timer){
-            Enemy enemy = new Enemy(x, y, 16, 16, Entity.rand.nextGaussian() , Entity.Enemy);
+            Enemy enemy = new Enemy(x, y, 16, 16, Entity.rand.nextDouble(1)+Entity.rand.nextInt(2) , Entity.Enemy);
             Game.entities.add(enemy);
             timer = Entity.rand.nextInt(60 - 30) + 30;
             cur_timer=0;

@@ -13,6 +13,12 @@ public class World {
 	public static Tile[] tiles;
 	public static int WIDTH,HEIGHT;
 	public static final int TILE_SIZE = 16;
+
+	public static int xFinal = 0;
+	public static int yFinal = 0;
+
+	public static int xInitial = 0;
+	public static int yInitial = 0;
 	
 	
 	public World(String path){
@@ -26,19 +32,26 @@ public class World {
 			for(int xx = 0; xx < map.getWidth(); xx++){
 				for(int yy = 0; yy < map.getHeight(); yy++){
 					int pixelAtual = pixels[xx + (yy * map.getWidth())];
-					tiles[xx + (yy * WIDTH)] = new FloorTile(xx*16,yy*16,Tile.TILE_FLOOR);
+					tiles[xx + (yy * WIDTH)] = new WallTile(xx*16,yy*16,Tile.TILE_WALL);
 					if(pixelAtual == 0xFF000000){
 						// FLoor
-						tiles[xx + (yy * WIDTH)] = new FloorTile(xx*16,yy*16,Tile.TILE_FLOOR);
+						tiles[xx + (yy * WIDTH)] = new WallTile(xx*16,yy*16,Tile.TILE_WALL);
 					}else if(pixelAtual == 0xFFffffff){
 						//Wall
-						tiles[xx + (yy * WIDTH)] = new WallTile(xx*16,yy*16,Tile.TILE_WALL);
+						tiles[xx + (yy * WIDTH)] = new FloorTile(xx*16,yy*16,Tile.TILE_FLOOR);
 						
 					} else if(pixelAtual == 0xFFFF0000){
 						//SPAWNER
-						tiles[xx + (yy * WIDTH)] = new WallTile(xx*16,yy*16,Tile.TILE_WALL);
+						tiles[xx + (yy * WIDTH)] = new FloorTile(xx*16,yy*16,Tile.TILE_FLOOR);
 						Spawner spawner = new Spawner(xx*16,yy*16, 16, 16, 0, null);
+						xInitial = xx;
+						yInitial = yy;
 						Game.entities.add(spawner);
+					} else if(pixelAtual == 0xFF0095FF){
+						//TARGET final do Inimigo
+						tiles[xx + (yy * WIDTH)] = new TargetTile(xx*16,yy*16,Tile.TILE_FLOOR);
+						xFinal = xx;
+						yFinal = yy;
 					}
 				}
 			}
