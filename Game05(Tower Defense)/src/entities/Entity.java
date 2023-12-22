@@ -15,7 +15,7 @@ import world.World;
 
 public class Entity {
 
-    protected List<Node> path;
+    public List<Node> path;
 
     public static BufferedImage Enemy = Game.spritesheet.getSprite(32, 32, 16, 16);
     
