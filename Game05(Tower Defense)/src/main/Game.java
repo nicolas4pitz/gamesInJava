@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import entities.Entity;
+import entities.TowerControler;
 import graficos.Spritesheet;
 import graficos.UI;
 import world.World;
@@ -38,6 +39,9 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public UI ui;
 
     public int xx, yy;
+
+    public static double vida = 10;
+    public static int dinheiro = 100;
     
     public static int entrada = 1;
     public static int comecar = 2;
@@ -51,6 +55,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public boolean saveGame = false;
 
     public static World world;
+
+    public TowerControler towerControler;
 
     /*public static BufferedImage minimapa;
     public static int[] minimapaPixels;*/
@@ -68,6 +74,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         entities = new ArrayList<Entity>();
         world =  new World("level1.png");
         ui = new UI();
+        towerControler = new TowerControler(0, 0, 0, 0, 0, null);
     }
 
     public void initFrame() {
@@ -107,6 +114,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             Entity e = entities.get(i);
             e.tick();
         }
+
+        towerControler.tick();
     }
 
 
@@ -193,7 +202,9 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     @Override
     public void mousePressed(MouseEvent e) {
-
+        towerControler.ispressed = true;
+        towerControler.xTarget = e.getX() / 3;
+        towerControler.yTarget = e.getY() / 3;
     }
 
     @Override
