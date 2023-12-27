@@ -19,16 +19,35 @@ public class World {
 	
 	
 	public World(){
-		WIDTH = Game.WIDTH / 16;
-		HEIGHT = Game.HEIGHT / 16;
+		String[] tilesTypes = {"grama", "terra", "areia", "neve"};
+		WIDTH = 100;
+		HEIGHT = 80;
+		int divisao = WIDTH / tilesTypes.length;
 		tiles = new Tile[(WIDTH) * (HEIGHT)];
 		for(int xx = 0; xx < WIDTH; xx++){
+			int initialHeight = Entity.rand.nextInt(12-8)+18;
 			for(int yy = 0; yy < HEIGHT; yy++){
 				if(yy == HEIGHT - 1 || xx == (WIDTH -1) || xx == 0 || yy == 0){
-					tiles[xx+yy*WIDTH] = new WallTile(xx*16, yy*16, Tile.TILE_GRAMA);
+					tiles[xx+yy*WIDTH] = new WallTile(xx*16, yy*16, Tile.TILE_PEDRA);
 					tiles[xx+yy*WIDTH].solid = true;
 				} else{
-					tiles[xx+yy*WIDTH] = new FloorTile(xx*16, yy*16, Tile.TILE_AR);
+					if(yy >= initialHeight){
+						int indexBioma = xx / divisao;
+						if(tilesTypes[indexBioma] == "grama"){
+							tiles[xx+yy*WIDTH] = new WallTile(xx*16, yy*16, Tile.TILE_GRAMA);
+						}else if(tilesTypes[indexBioma] == "terra"){
+							tiles[xx+yy*WIDTH] = new WallTile(xx*16, yy*16, Tile.TILE_TERRA);
+						}else if(tilesTypes[indexBioma] == "areia"){
+							tiles[xx+yy*WIDTH] = new WallTile(xx*16, yy*16, Tile.TILE_AREIA);
+						} else if(tilesTypes[indexBioma] == "neve"){
+							tiles[xx+yy*WIDTH] = new WallTile(xx*16, yy*16, Tile.TILE_NEVE);
+						} else {
+							tiles[xx+yy*WIDTH] = new FloorTile(xx*16, yy*16, Tile.TILE_AR);
+						}
+					} else{
+						tiles[xx+yy*WIDTH] = new FloorTile(xx*16, yy*16, Tile.TILE_AR);
+					}
+					
 				}
 			}
 		}

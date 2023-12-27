@@ -37,6 +37,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static Spritesheet spritesheet;
     public static Player player;
     public static Inventario inventario;
+    public static EnemySpawn enemySpawn;
 
     public UI ui;
 
@@ -69,10 +70,11 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
         spritesheet = new Spritesheet("spritesheet.png");
         entities = new ArrayList<Entity>();
-        player = new Player(WIDTH/2 - 20, HEIGHT/2 - 5, 16,  16, 1, Entity.Player_Sprite);
+        player = new Player(16, 16, 16,  16, 1, Entity.Player_Sprite);
         world =  new World();
         ui = new UI();
         inventario = new Inventario();
+        enemySpawn = new EnemySpawn();
         
         entities.add(player);
     }
@@ -117,6 +119,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
         ui.tick();
         inventario.tick();
+        enemySpawn.tick();
     }
 
 
@@ -196,7 +199,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             player.left = true;
         }
 
-        if(e.getKeyCode() == KeyEvent.VK_SPACE){
+        if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP){
             player.jump = true;
         }
     }
