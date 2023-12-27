@@ -15,6 +15,8 @@ public class Player extends Entity{
     public int dir = 1;
     private int gravity = 2;
 
+    public double life = 100;
+
     public boolean jump = false;
     public int jumpHeight = 58;
     public int jumpframe = 0;

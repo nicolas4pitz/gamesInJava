@@ -14,7 +14,11 @@ public class Tile {
     public static BufferedImage TILE_GRAMA = Game.spritesheet.getSprite(32, 48, 16, 16);
     public static BufferedImage TILE_TERRA = Game.spritesheet.getSprite(48, 48, 16, 16);
     public static BufferedImage TILE_AR = Game.spritesheet.getSprite(32, 64, 16, 16);
+    public static BufferedImage TILE_NEVE = Game.spritesheet.getSprite(16, 48, 16, 16);
+    public static BufferedImage TILE_AREIA = Game.spritesheet.getSprite(0, 48, 16, 16);
 
+
+    public boolean solid = false;
 
 
     private BufferedImage sprite;
