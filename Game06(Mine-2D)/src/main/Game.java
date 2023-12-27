@@ -69,7 +69,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
         spritesheet = new Spritesheet("spritesheet.png");
         entities = new ArrayList<Entity>();
-        player = new Player(WIDTH/2 - 20, HEIGHT/2 - 5, 16,  16, 3.4, Entity.Player_Sprite);
+        player = new Player(WIDTH/2 - 20, HEIGHT/2 - 5, 16,  16, 1, Entity.Player_Sprite);
         world =  new World();
         ui = new UI();
         inventario = new Inventario();
@@ -115,6 +115,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
             e.tick();
         }
 
+        ui.tick();
         inventario.tick();
     }
 
@@ -216,7 +217,16 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
     @Override
     public void mousePressed(MouseEvent e) {
+        
+        if(e.getButton() == MouseEvent.BUTTON1){
+            inventario.isPressed = true;
+        } else if(e.getButton() == MouseEvent.BUTTON3){
+            inventario.isPlaceItem = true;
+        }
 
+
+        inventario.mx = e.getX();
+        inventario.my = e.getY();
     }
 
     @Override

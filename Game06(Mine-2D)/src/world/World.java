@@ -24,8 +24,9 @@ public class World {
 		tiles = new Tile[(WIDTH) * (HEIGHT)];
 		for(int xx = 0; xx < WIDTH; xx++){
 			for(int yy = 0; yy < HEIGHT; yy++){
-				if(yy == HEIGHT - 1){
+				if(yy == HEIGHT - 1 || xx == (WIDTH -1) || xx == 0 || yy == 0){
 					tiles[xx+yy*WIDTH] = new WallTile(xx*16, yy*16, Tile.TILE_GRAMA);
+					tiles[xx+yy*WIDTH].solid = true;
 				} else{
 					tiles[xx+yy*WIDTH] = new FloorTile(xx*16, yy*16, Tile.TILE_AR);
 				}
