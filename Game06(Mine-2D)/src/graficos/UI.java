@@ -6,12 +6,13 @@ import java.awt.Graphics;
 
 import entities.Player;
 import main.Game;
+import world.World;
 
 public class UI {
 
-    public int seconds = 0;
-    public int minutes = 0;
-    public int frames = 0;
+    public static int seconds = 0;
+    public static int minutes = 0;
+    public static int frames = 0;
 
     public void tick (){
         frames++;
@@ -21,6 +22,12 @@ public class UI {
             if(seconds == 60){
                 seconds = 0;
                 minutes++;
+                if(UI.minutes % 1 == 0){
+                    World.CICLO++;
+                    if(World.CICLO > World.noite){
+                        World.CICLO = 0;
+                    }
+                }
             }
         }
     }

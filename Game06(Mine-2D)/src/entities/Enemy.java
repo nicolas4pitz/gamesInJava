@@ -1,9 +1,11 @@
 package entities;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import main.Game;
+import world.Camera;
 import world.FloorTile;
 import world.Tile;
 import world.WallTile;
@@ -15,7 +17,8 @@ public class Enemy extends Entity{
 
     private boolean right = true, left = false;
 
-    public int vida = 4;
+    public double vida = Entity.rand.nextInt(100-20) + 30;
+    public double maxLife = vida;
 
     public int dir = 1;
 
@@ -60,6 +63,11 @@ public class Enemy extends Entity{
                 left = false;
             }
         }
+
+        if(vida == 0){
+            Game.entities.remove(this);
+            return;
+        }
         
     }
 
@@ -71,6 +79,12 @@ public class Enemy extends Entity{
         }
 
         super.render(g);
+
+        int curLife = (int)((vida/maxLife) * 20);
+        g.setColor(Color.RED);
+        g.fillRect(this.getX()-2-Camera.x, this.getY() - 7 - Camera.y, 20, 7);
+        g.setColor(Color.GREEN);
+        g.fillRect(this.getX()-2-Camera.x, this.getY() - 7 - Camera.y, curLife, 7);
     }
     
 }
