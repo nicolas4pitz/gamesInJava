@@ -28,9 +28,22 @@ public class Player extends Entity{
     private int maxSprite = 4;
     private int curSprite = 0;
 
+    public BufferedImage attack_Right;
+    public BufferedImage attack_Left;
+
+    public boolean attack = false;
+    public boolean isAttackig = false;
+    public int attackFrames = 0;
+    public int maxFramesAttack = 20;
+
+    public int lastDir = 0;
+
 
     public Player(int x, int y, int width, int height, double speed, BufferedImage sprite) {
         super(x, y, width, height, speed, sprite);
+
+        attack_Right = Game.spritesheet.getSprite(64, 32, 16, 16);
+        attack_Left = Game.spritesheet.getSprite(80, 32, 16, 16);
     }
 
     public void tick(){
@@ -72,9 +85,43 @@ public class Player extends Entity{
             }
         }
         
+        //Sistema de Ataque
+        if(attack){
+            if(isAttackig == false){
+                attack = false;
+                isAttackig = true;
+            }
+        }
+
+        if(isAttackig){
+            attackFrames++;
+            if(attackFrames == this.maxFramesAttack){
+                attackFrames = 0;
+                isAttackig = false;
+            }
+        }
+
+        collisionEnemy();
 
         Camera.x = Camera.clamp((int)x-Game.WIDTH/2, 0, World.WIDTH*16 - Game.WIDTH);
         Camera.y = Camera.clamp((int)y-Game.HEIGHT/2, 0, World.HEIGHT*16 - Game.HEIGHT);	
+    }
+
+    public void collisionEnemy(){
+        for(int i = 0; i < Game.entities.size(); i++){
+            Entity e = Game.entities.get(i);
+            if(e instanceof Enemy){
+                if(Entity.rand.nextInt(100) < 30){
+                    if(Entity.isColliding(this, e)){
+                        life-=0.3;
+                        if(isAttackig){
+                            ((Enemy) e).vida--;
+                        }
+                    }
+                    
+                }
+            }
+        }
     }
 
     public void render(Graphics g){
@@ -87,11 +134,24 @@ public class Player extends Entity{
             }
         }
         if(right){
+            lastDir = 1;
             sprite = Entity.Player_Sprite_RIGHT[curSprite];
+            if(isAttackig){
+                g.drawImage(attack_Right, this.getX()+8-Camera.x, this.getY() - Camera.y, null);
+            }
         } else if(left){
+            lastDir = 2;
+            if(isAttackig){
+                g.drawImage(attack_Left, this.getX()-8-Camera.x, this.getY() - Camera.y, null);
+            }
             sprite = Entity.Player_Sprite_LEFT[curSprite];
         } else{
             sprite = Entity.Player_Sprite;
+            if(lastDir == 1 && isAttackig){
+                g.drawImage(attack_Right, this.getX()+8-Camera.x, this.getY() - Camera.y, null);
+            } else if(lastDir == 2 && isAttackig){
+                g.drawImage(attack_Left, this.getX()-8-Camera.x, this.getY() - Camera.y, null);
+            }
         }
 
         super.render(g);

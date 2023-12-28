@@ -202,6 +202,10 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         if(e.getKeyCode() == KeyEvent.VK_SPACE || e.getKeyCode() == KeyEvent.VK_UP){
             player.jump = true;
         }
+
+        if(e.getKeyCode() == KeyEvent.VK_Z){
+            player.attack = true;
+        }
     }
 
     @Override

@@ -9,6 +9,7 @@ import entities.Enemy;
 import entities.Entity;
 import entities.Moeda;
 import entities.Player;
+import graficos.UI;
 import main.Game;
 
 public class World {
@@ -16,6 +17,10 @@ public class World {
 	public static Tile[] tiles;
 	public static int WIDTH,HEIGHT;
 	public static final int TILE_SIZE = 16;
+
+	public static int dia = 0;
+	public static int noite = 1;
+	public static int CICLO = Entity.rand.nextInt(2);
 	
 	
 	public World(){
@@ -25,7 +30,7 @@ public class World {
 		int divisao = WIDTH / tilesTypes.length;
 		tiles = new Tile[(WIDTH) * (HEIGHT)];
 		for(int xx = 0; xx < WIDTH; xx++){
-			int initialHeight = Entity.rand.nextInt(12-8)+18;
+			int initialHeight = Entity.rand.nextInt(12-10)+18;
 			for(int yy = 0; yy < HEIGHT; yy++){
 				if(yy == HEIGHT - 1 || xx == (WIDTH -1) || xx == 0 || yy == 0){
 					tiles[xx+yy*WIDTH] = new WallTile(xx*16, yy*16, Tile.TILE_PEDRA);
@@ -72,7 +77,7 @@ public class World {
 				(tiles[x3 + (y3*World.WIDTH)] instanceof WallTile) ||
 				(tiles[x4 + (y4*World.WIDTH)] instanceof WallTile));
 	}
-	
+
 	public static void restartGame(){
 		//TODO: Aplicar método para reiniciar o jogo corretamente
 		return;

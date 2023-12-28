@@ -17,13 +17,14 @@ public class Tile {
     public static BufferedImage TILE_NEVE = Game.spritesheet.getSprite(16, 48, 16, 16);
     public static BufferedImage TILE_AREIA = Game.spritesheet.getSprite(0, 48, 16, 16);
     public static BufferedImage TILE_PEDRA = Game.spritesheet.getSprite(64, 48, 16, 16);
+    public static BufferedImage TILE_NOITE = Game.spritesheet.getSprite(16, 64, 16, 16);
 
 
     public boolean solid = false;
 
 
     private BufferedImage sprite;
-    private int x,y;
+    protected int x,y;
 
     public Tile(int x, int y, BufferedImage sprite){
         this.x = x;
