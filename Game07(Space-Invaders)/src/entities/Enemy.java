@@ -24,6 +24,7 @@ public class Enemy extends Entity{
         y+=speed;
         if(y >= Game.HEIGHT){
             Game.entities.remove(this);
+            Game.life-=10;
             return;
         }
 
@@ -36,6 +37,7 @@ public class Enemy extends Entity{
                     if(life == 0){
                         Explosion explosion = new Explosion(x, y, 16, 16, 0, null);
                         Game.entities.add(explosion);
+                        Game.score++;
                         Game.entities.remove(this);
                         return;
                     }

@@ -44,6 +44,11 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public UI ui;
 
     public BufferedImage GameBackground;
+    public BufferedImage GameBackground2;
+
+    public int backY = 0;
+    public int backY2 = 160;
+    public int backspd = 1;
 
     public int xx, yy;
     
@@ -59,6 +64,9 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public boolean saveGame = false;
 
     public static World world;
+
+    public static int score=0;
+    public static double life = 100;
 
     /*public static BufferedImage minimapa;
     public static int[] minimapaPixels;*/
@@ -80,6 +88,7 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         enemySpawn = new EnemySpawn();
         try {
             GameBackground = ImageIO.read(getClass().getResource("gb_game7.png"));
+            GameBackground2 = ImageIO.read(getClass().getResource("gb_game7.png"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -128,6 +137,16 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
 
         ui.tick();
         enemySpawn.tick();
+
+        backY-=backspd;
+        if(backY+160 <= 0){
+            backY = 160;
+        }
+
+        backY2-=backspd;
+        if(backY2+160 <= 0){
+            backY2 = 160;
+        }
     }
 
 
@@ -145,7 +164,8 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
         g.setColor(new Color(0, 0, 0));
         g.fillRect(0, 0, WIDTH, HEIGHT);
 
-        g.drawImage(GameBackground, 0, 0, null);
+        g.drawImage(GameBackground, 0, backY, null);
+        g.drawImage(GameBackground2, 0, backY2, null);
 
         // Sort the entities list by Z-index
         world.render(g);
