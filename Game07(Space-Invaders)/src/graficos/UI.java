@@ -46,6 +46,17 @@ public class UI {
         } else{
             formatTime+=seconds;
         }
+
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("arial", Font.BOLD, 20));
+        g.drawString("Score: "+Game.score, 10, 24);
+
+        g.setColor(Color.red);
+        g.fillRect(Game.WIDTH*Game.SCALE-160, 6, 100, 25);
+
+        g.setColor(Color.green);
+        g.fillRect(Game.WIDTH*Game.SCALE-160, 6, (int)Game.life, 25);
+
     }
 
 }
