@@ -49,9 +49,6 @@ public class Game extends Canvas implements Runnable, KeyListener, MouseListener
     public static int estado_cena = entrada;
     public int timeCena = 0, maxTimeCena = 60*3;
 
-    //public InputStream stream = ClassLoader.getSystemClassLoader().getResourceAsStream("pixelart.ttf");
-    //public Font newFont;
-
     public boolean saveGame = false;
 
     public static World world;
